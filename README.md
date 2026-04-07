@@ -1,66 +1,80 @@
-🪙 Crypto Data Pipeline: Medallion Architecture
-Este projeto implementa um pipeline de dados robusto para o monitoramento de criptoativos, seguindo a Arquitetura Medalhão (Bronze, Silver, Gold). O objetivo é transformar dados brutos de mercado em indicadores financeiros prontos para análise, com foco em conversão monetária e segmentação de mercado.
+# 🪙 Crypto Data Pipeline: Medallion Architecture
 
-🏗️ Arquitetura do Projeto
-O fluxo de dados foi desenhado para garantir a qualidade e o refinamento progressivo da informação:
+Este projeto implementa um pipeline de dados robusto para o monitoramento de criptoativos, utilizando a **Arquitetura Medalhão (Bronze, Silver, Gold)**. O objetivo é transformar dados brutos extraídos via API em indicadores financeiros refinados, prontos para consumo em ferramentas de Business Intelligence (BI).
 
-Bronze (Raw): Extração direta da API e armazenamento do JSON bruto.
+## 🏗️ Arquitetura do Projeto
 
-Silver (Cleaned): Limpeza, tipagem de dados e histórico de processamento.
+O fluxo de dados foi desenhado para garantir a qualidade, integridade e o refinamento progressivo da informação:
 
-Gold (Curated): Camada de negócio com conversão BRL, Rankings e Tiers.
+1.  **Bronze (Raw):** Camada de ingestão inicial. Extração direta da API e armazenamento dos dados brutos.
+2.  **Silver (Cleaned):** Processo de limpeza, tipagem de dados e seleção do lote mais recente utilizando Window Functions (`ROW_NUMBER`) para garantir a unicidade por `coin_id`.
+3.  **Gold (Curated):** Camada final de negócio. Aplicação de enriquecimento com dados externos (yFinance), conversão de moeda (BRL), rankings e categorização de mercado.
 
-🛠️ Tecnologias e Ferramentas
-Linguagem: Python 3.9+
 
-Bibliotecas: Pandas, NumPy, yFinance
 
-Banco de Dados: PostgreSQL
+---
 
-ORM/Interface: SQLAlchemy 2.0
+## 🛠️ Tecnologias e Ferramentas
 
-Observabilidade: Logging (Padrão Python)
+* **Linguagem:** Python 3.9+
+* **Manipulação de Dados:** Pandas & NumPy
+* **Integração Financeira:** yFinance API (Cotação USD/BRL em tempo real)
+* **Banco de Dados:** PostgreSQL
+* **Interface de Banco:** SQLAlchemy 2.0 (Uso de `engine.begin` e `text`)
+* **Observabilidade:** Logging (Mensagens estruturadas em Português)
 
-🚀 Funcionalidades da Camada Gold
-A camada final (Gold) entrega valor analítico através das seguintes implementações técnicas:
+---
 
-Conversão em Tempo Real: Integração com a API do Yahoo Finance para converter todas as métricas de USD para BRL.
+## 🚀 Funcionalidades da Camada Gold
 
-Segmentação de Mercado (Tiering): Classificação automática em Large Cap, Medium Cap e Low Cap baseada no Market Cap.
+A camada **Gold** entrega o valor final do pipeline através das seguintes implementações:
 
-Ranking de Ativos: Cálculo de posição de mercado (market_rank) utilizando lógica de ranking do Pandas.
+* **Conversão de Moeda Dinâmica:** Integração com o Yahoo Finance para converter preços e variações de USD para BRL no momento da carga.
+* **Segmentação de Mercado (Tiering):** Classificação automática dos ativos em *Large Cap*, *Medium Cap* e *Low Cap* via lógica vetorizada.
+* **Ranking de Ativos:** Cálculo de posição de mercado (`market_rank`) baseado no valor de capitalização.
+* **Tratamento de Performance:** Aplicação de máscaras de dados para tratar variações negativas e garantir a consistência dos KPIs.
+* **Estratégia de Carga:** Uso de `TRUNCATE` para atualização total do lote atual e `ON CONFLICT (UPSERT)` para garantir a integridade da Primary Key.
 
-Integridade de Dados: Aplicação de máscaras de performance para tratar variações negativas e garantir KPIs consistentes.
+---
 
-Persistência Eficiente: Uso de TRUNCATE para atualização de lote e ON CONFLICT para garantir a unicidade do coin_id.
+## 📝 Exemplo de Observabilidade (Logs)
 
-📝 Exemplo de Observabilidade (Logs)
-O pipeline é totalmente monitorado por logs em português, facilitando o rastreio de erros e auditoria do processo:
+O pipeline utiliza o módulo `logging` para monitorar cada etapa do processo em tempo real:
 
-Plaintext
+```text
 2026-04-07 08:00:01 - INFO - Iniciando o processo de ETL para a camada Gold...
+2026-04-07 08:00:02 - INFO - Conexão com o banco de dados estabelecida com sucesso.
 2026-04-07 08:00:03 - INFO - Tabela Silver lida com sucesso! 100 registros extraídos.
 2026-04-07 08:00:04 - INFO - Cotação Atual (USDBRL=X) obtida com sucesso: R$ 5.1234
+2026-04-07 08:00:05 - INFO - Aplicando regra de negócio: Categorização de Market Tier...
 2026-04-07 08:00:07 - INFO - Sucesso: 100 registros inseridos/atualizados na Gold.
-📁 Estrutura de Arquivos
+---
+
+## 📁 Estrutura de Arquivos
+
 Plaintext
-├── connection.py        # Parâmetros de conexão com o PostgreSQL
-├── ingestion_bronze.py  # Coleta de dados brutos (API)
-├── ingestion_silver.py  # Limpeza e padronização (Silver)
-├── ingestion_gold.py    # Regras de negócio e enriquecimento (Gold)
+├── connection.py        # Configuração da Engine SQLAlchemy e conexão
+├── ingestion_bronze.py  # Script de extração da API (Camada Bronze)
+├── ingestion_silver.py  # Script de limpeza e padronização (Camada Silver)
+├── ingestion_gold.py    # Script de regras de negócio e carga final (Camada Gold)
 └── requirements.txt     # Dependências do projeto
-⚙️ Como Executar
+
+---
+
+## ⚙️ Como Executar
 Clone o repositório:
 
 Bash
-git clone https://github.com/seu-usuario/crypto-data-pipeline.git
+git clone [https://github.com/seu-usuario/crypto-data-pipeline.git](https://github.com/seu-usuario/crypto-data-pipeline.git)
 Instale as dependências:
 
 Bash
 pip install -r requirements.txt
-Configure suas credenciais no arquivo connection.py.
+Configuração:
+Configure as credenciais do seu banco PostgreSQL no arquivo connection.py.
 
-Execute o pipeline:
+Execução:
+Execute os scripts em ordem ou chame o script da Gold para processar o lote final:
 
 Bash
 python ingestion_gold.py
