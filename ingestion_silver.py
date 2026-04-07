@@ -22,18 +22,18 @@ logger = logging.getLogger(__name__)
 #%% Database Connection
 
 try:
-    logger.info("Initializing connection to the PostgreSQL database...")
+    logger.info("Iniciando conexão com o banco")
     conn = psycopg2.connect(**db_params)
     cur = conn.cursor()
-    logger.info("Database connection established successfully.")
+    logger.info("Conexão bem-sucedida.")
 except Exception as e:
-    logger.error(f"Failed to connect to the database: {e}")
+    logger.error(f"Falha ao conectar: {e}")
     raise
 
 #%% Creating DataFrame and Mapping Columns
 
 try:
-    logger.info("Starting data normalization from API response...")
+    logger.info("Iniciando normalização")
     df = pd.json_normalize(data)
 
     # Defining the source columns from API
@@ -63,7 +63,7 @@ except Exception as e:
 #%% Data Transformation and Cleaning
 
 try:
-    logger.info("Starting data cleaning and type conversion...")
+    logger.info("Iniciando transformação e limpeza dos dados")
     
     # Converting string to datetime object
     df['last_updated'] = pd.to_datetime(df['last_updated'])
@@ -74,9 +74,9 @@ try:
     # Converting NaN values to None (SQL NULL compatible)
     df = df.replace({np.nan: None})
     
-    logger.info("Data cleaning and transformation finished.")
+    logger.info("Transformação finalizada")
 except Exception as e:
-    logger.error(f"Error during data transformation: {e}")
+    logger.error(f"Erro na transformação: {e}")
     conn.close()
     raise
 
@@ -102,12 +102,12 @@ silver_table_query = """
 """
 
 try:
-    logger.info("Ensuring silver_table exists in the schema...")
+    logger.info("Verificando existência da tabela prata")
     cur.execute(silver_table_query)
     conn.commit()
-    logger.info("Silver table check/creation successful.")
+    logger.info("Tabela conferida/criada")
 except Exception as e:
-    logger.error(f"Error creating table: {e}")
+    logger.error(f"Erro ao criar tabela: {e}")
     conn.rollback()
     raise
 
@@ -126,19 +126,17 @@ try:
     # Converting DataFrame rows into a list of tuples for psycopg2
     data_tuples = [tuple(x) for x in df.values]
     
-    logger.info(f"Starting batch insert of {len(data_tuples)} records...")
+    logger.info(f"Iniciando ingestão de {len(data_tuples)} registros...")
     execute_batch(cur, insert_query, data_tuples)
     conn.commit()
-    logger.info("Data ingestion to silver_table completed successfully.")
+    logger.info("Ingestão da camada prata bem-sucedida.")
 
 except Exception as e:
-    logger.error(f"Critical error during database ingestion: {e}")
+    logger.error(f"Erro durante a ingestão: {e}")
     conn.rollback()
-    logger.warning("Transaction rolled back due to error.")
+    logger.warning("Rollback devido à erro")
 finally:
     # Closing resources
     cur.close()
     conn.close()
-    logger.info("Database connection closed.")
-
-#%%
+    logger.info("Conexão fechada.")
