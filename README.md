@@ -1,3 +1,4 @@
+Markdown
 # 🪙 Crypto Data Pipeline: Medallion Architecture
 
 Este projeto implementa um pipeline de dados robusto para o monitoramento de criptoativos, utilizando a **Arquitetura Medalhão (Bronze, Silver, Gold)**. O objetivo é transformar dados brutos extraídos via API em indicadores financeiros refinados, prontos para consumo em ferramentas de Business Intelligence (BI).
@@ -48,34 +49,30 @@ O pipeline utiliza o módulo `logging` para monitorar cada etapa do processo em 
 2026-04-07 08:00:04 - INFO - Cotação Atual (USDBRL=X) obtida com sucesso: R$ 5.1234
 2026-04-07 08:00:05 - INFO - Aplicando regra de negócio: Categorização de Market Tier...
 2026-04-07 08:00:07 - INFO - Sucesso: 100 registros inseridos/atualizados na Gold.
----
-
-## 📁 Estrutura de Arquivos
-
+📁 Estrutura de Arquivos
 Plaintext
+.
 ├── connection.py        # Configuração da Engine SQLAlchemy e conexão
 ├── ingestion_bronze.py  # Script de extração da API (Camada Bronze)
 ├── ingestion_silver.py  # Script de limpeza e padronização (Camada Silver)
 ├── ingestion_gold.py    # Script de regras de negócio e carga final (Camada Gold)
 └── requirements.txt     # Dependências do projeto
-
----
-
-## ⚙️ Como Executar
-Clone o repositório:
-
+⚙️ Como Executar
+1. Clonar o Repositório
 Bash
 git clone [https://github.com/seu-usuario/crypto-data-pipeline.git](https://github.com/seu-usuario/crypto-data-pipeline.git)
-Instale as dependências:
-
+cd crypto-data-pipeline
+2. Instalar Dependências
 Bash
 pip install -r requirements.txt
-Configuração:
-Configure as credenciais do seu banco PostgreSQL no arquivo connection.py.
+3. Configurar Conexão
+Edite o arquivo connection.py com suas credenciais do PostgreSQL:
 
-Execução:
-Execute os scripts em ordem ou chame o script da Gold para processar o lote final:
+Host, Usuário, Senha e Porta.
+
+4. Rodar o Pipeline
+Para processar os dados da camada final:
 
 Bash
 python ingestion_gold.py
-Desenvolvido por Lúcio - Data Professional | BI & Data Engineering
+Desenvolvido por Lucio - Data Analysis| Data Engineering
