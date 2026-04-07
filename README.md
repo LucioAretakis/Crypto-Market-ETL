@@ -64,12 +64,14 @@ O pipeline utiliza o módulo `logging` para monitorar cada etapa do processo em 
 ## ⚙️ Como Executar
 
 1. Clonar o Repositório
-Bash
+```Bash
 git clone [https://github.com/seu-usuario/crypto-data-pipeline.git](https://github.com/seu-usuario/crypto-data-pipeline.git)
 cd crypto-data-pipeline
+```
 2. Instalar Dependências
-Bash
+```Bash
 pip install -r requirements.txt
+```
 3. Configurar Conexão
 Edite o arquivo connection.py com suas credenciais do PostgreSQL:
 
@@ -78,6 +80,6 @@ Host, Usuário, Senha e Porta.
 4. Rodar o Pipeline
 Para processar os dados da camada final:
 
-Bash
+```bash
 python ingestion_gold.py
 Desenvolvido por Lucio - Data Analysis| Data Engineering
