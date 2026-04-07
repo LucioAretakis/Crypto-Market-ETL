@@ -3,7 +3,7 @@ Markdown
 
 Este projeto implementa um pipeline de dados robusto para o monitoramento de criptoativos, utilizando a **Arquitetura Medalhão (Bronze, Silver, Gold)**. O objetivo é transformar dados brutos extraídos via API em indicadores financeiros refinados, prontos para consumo em ferramentas de Business Intelligence (BI).
 
-![Arquitetura do Projeto]("https://github.com/LucioAretakis/Crypto-Market-ETL/issues/1#issue-4217454013")
+![Arquitetura do Projeto](https://github.com/LucioAretakis/Crypto-Market-ETL/issues/1#issue-4217454013)
 
 ## 🏗️ Arquitetura do Projeto
 
