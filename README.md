@@ -49,7 +49,10 @@ O pipeline utiliza o módulo `logging` para monitorar cada etapa do processo em 
 2026-04-07 08:00:04 - INFO - Cotação Atual (USDBRL=X) obtida com sucesso: R$ 5.1234
 2026-04-07 08:00:05 - INFO - Aplicando regra de negócio: Categorização de Market Tier...
 2026-04-07 08:00:07 - INFO - Sucesso: 100 registros inseridos/atualizados na Gold.
-📁 Estrutura de Arquivos
+```
+
+## 📁 Estrutura de Arquivos
+
 Plaintext
 .
 ├── connection.py        # Configuração da Engine SQLAlchemy e conexão
@@ -57,7 +60,10 @@ Plaintext
 ├── ingestion_silver.py  # Script de limpeza e padronização (Camada Silver)
 ├── ingestion_gold.py    # Script de regras de negócio e carga final (Camada Gold)
 └── requirements.txt     # Dependências do projeto
-⚙️ Como Executar
+
+
+## ⚙️ Como Executar
+
 1. Clonar o Repositório
 Bash
 git clone [https://github.com/seu-usuario/crypto-data-pipeline.git](https://github.com/seu-usuario/crypto-data-pipeline.git)
