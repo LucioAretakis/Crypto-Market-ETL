@@ -53,14 +53,12 @@ O pipeline utiliza o módulo `logging` para monitorar cada etapa do processo em 
 
 ## 📁 Estrutura de Arquivos
 
-Plaintext
 .
 ├── connection.py        # Configuração da Engine SQLAlchemy e conexão
 ├── ingestion_bronze.py  # Script de extração da API (Camada Bronze)
 ├── ingestion_silver.py  # Script de limpeza e padronização (Camada Silver)
 ├── ingestion_gold.py    # Script de regras de negócio e carga final (Camada Gold)
 └── requirements.txt     # Dependências do projeto
-
 
 ## ⚙️ Como Executar
 
