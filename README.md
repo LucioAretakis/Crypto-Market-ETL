@@ -3,6 +3,8 @@ Markdown
 
 Este projeto implementa um pipeline de dados robusto para o monitoramento de criptoativos, utilizando a **Arquitetura Medalhão (Bronze, Silver, Gold)**. O objetivo é transformar dados brutos extraídos via API em indicadores financeiros refinados, prontos para consumo em ferramentas de Business Intelligence (BI).
 
+![Arquitetura do Projeto]("C:\Users\lucio\Downloads\crypto_market_architecture.png")
+
 ## 🏗️ Arquitetura do Projeto
 
 O fluxo de dados foi desenhado para garantir a qualidade, integridade e o refinamento progressivo da informação:
