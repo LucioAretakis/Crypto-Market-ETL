@@ -1,0 +1,12 @@
+pandas
+numpy
+
+# Banco de Dados e ORM
+sqlalchemy>=2.0.0
+psycopg2-binary
+
+# Integração com APIs Financeiras
+yfinance
+
+# Utilitários (Opcional, mas recomendado para requests de API na Bronze)
+requests
